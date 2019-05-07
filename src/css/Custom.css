@@ -1,5 +1,6 @@
-.container {
-  width: 25%;
+.stepperContainer {
+  margin-left: 0;
+  margin-top: 22px;
 }
 
 .step {
@@ -28,8 +29,8 @@
 }
 
 .step .line {
-  top: 23px;
-  left: 12px;
+  top: 20px;
+  left: 8px;
   /*   height: 120px; */
   height: 100%;
 
