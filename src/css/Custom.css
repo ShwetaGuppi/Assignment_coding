@@ -3,6 +3,11 @@
   margin-top: 22px;
 }
 
+.pickers {
+  display: flex;
+  justify-content: space-around;
+}
+
 .step {
   padding: 10px;
 
@@ -74,9 +79,53 @@
   font-weight: bold;
 }
 
-/* codepen override */
+/* codepen override
 html * {
   font-size: 15px !important;
   color: #000 !important;
   font-family: Arial !important;
+} */
+
+.InputFromTo
+  .DayPicker-Day--selected:not(.DayPicker-Day--start):not(.DayPicker-Day--end):not(.DayPicker-Day--outside) {
+  background-color: #f0f8ff !important;
+  color: #4a90e2;
+}
+.InputFromTo .DayPicker-Day {
+  border-radius: 0 !important;
+}
+.InputFromTo .DayPicker-Day--start {
+  border-top-left-radius: 50% !important;
+  border-bottom-left-radius: 50% !important;
+}
+.InputFromTo .DayPicker-Day--end {
+  border-top-right-radius: 50% !important;
+  border-bottom-right-radius: 50% !important;
+}
+.InputFromTo .DayPickerInput-Overlay {
+  width: 550px;
+}
+.InputFromTo-to .DayPickerInput-Overlay {
+  margin-left: -198px;
+}
+
+.InputFromTo-to {
+  margin-left: 100px;
+}
+.dateBox {
+  margin-left: 10px;
+}
+
+.dropBox {
+  width: 20%;
+}
+
+.buttonAlign {
+  display: table;
+  margin: 0 auto;
+  margin-top: 16px;
+}
+
+.mainContainer {
+  margin-top: 10px !important;
 }
