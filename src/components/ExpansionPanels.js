@@ -7,6 +7,7 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import AccordionForm from "./AccordionForm";
 import MuiExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
 import Button from "@material-ui/core/Button";
+import TextForm from "./TextForm";
 
 const styles = theme => ({
   root: {
@@ -48,8 +49,10 @@ const ExpansionPanelSummary = withStyles({
 ExpansionPanelSummary.muiName = "ExpansionPanelSummary";
 
 class ExpansionPanels extends React.Component {
+  reqData = {};
   state = {
-    expanded: null
+    expanded: null,
+    showError: false
   };
 
   handleChange = panel => (event, expanded) => {
@@ -58,9 +61,31 @@ class ExpansionPanels extends React.Component {
     });
   };
 
-  handleSubmit(event) {
-    alert("An essay was submitted: " + this.state.value);
-    event.preventDefault();
+  passingFunction = data => {
+    if (data.alignmentValue && data.inputValue) {
+      this.setState({ showError: false });
+      this.reqData = data;
+    }
+  };
+
+  handleData() {
+    if (
+      this.reqData.alignmentValue &&
+      this.reqData.inputValue &&
+      this.reqData.alignmentValue !== "" &&
+      this.reqData.inputValue !== ""
+    ) {
+      this.setState({ showError: false });
+    } else if (
+      this.reqData.alignmentValue === undefined ||
+      this.reqData.inputValue === undefined ||
+      this.reqData.alignmentValue !== "" ||
+      this.reqData.inputValue !== ""
+    ) {
+      this.setState({ showError: true });
+    } else {
+      this.setState({ showError: false });
+    }
   }
 
   render() {
@@ -77,7 +102,10 @@ class ExpansionPanels extends React.Component {
             <h3> Define Objective </h3>
           </ExpansionPanelSummary>
           <ExpansionPanelDetails>
-            <AccordionForm />
+            <AccordionForm
+              error={this.state.showError}
+              hello={this.passingFunction}
+            />
           </ExpansionPanelDetails>
         </ExpansionPanel>
         <ExpansionPanel
@@ -88,7 +116,7 @@ class ExpansionPanels extends React.Component {
             <h3> KRA </h3>
           </ExpansionPanelSummary>
           <ExpansionPanelDetails>
-            <AccordionForm />
+            <TextForm />
           </ExpansionPanelDetails>
         </ExpansionPanel>
         <ExpansionPanel
@@ -99,10 +127,10 @@ class ExpansionPanels extends React.Component {
             <h3> Weightage and Privacy </h3>
           </ExpansionPanelSummary>
           <ExpansionPanelDetails>
-            <AccordionForm />
+            <TextForm />
           </ExpansionPanelDetails>
         </ExpansionPanel>
-        <form className="buttonAlign" onSubmit={this.handleSubmit}>
+        <form className="buttonAlign">
           <Button variant="contained" className={classes.button}>
             Clear Now
           </Button>
@@ -110,8 +138,8 @@ class ExpansionPanels extends React.Component {
             variant="contained"
             color="secondary"
             className={classes.button}
-            type="submit"
             value="submit"
+            onClick={() => this.handleData()}
           >
             Submit
           </Button>

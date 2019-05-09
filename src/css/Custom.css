@@ -79,13 +79,6 @@
   font-weight: bold;
 }
 
-/* codepen override
-html * {
-  font-size: 15px !important;
-  color: #000 !important;
-  font-family: Arial !important;
-} */
-
 .InputFromTo
   .DayPicker-Day--selected:not(.DayPicker-Day--start):not(.DayPicker-Day--end):not(.DayPicker-Day--outside) {
   background-color: #f0f8ff !important;
@@ -128,4 +121,12 @@ html * {
 
 .mainContainer {
   margin-top: 10px !important;
+}
+
+.pull-right {
+  right: 0px;
+}
+
+.redError {
+  color: red;
 }

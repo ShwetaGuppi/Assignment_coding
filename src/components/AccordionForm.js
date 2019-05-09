@@ -16,6 +16,29 @@ const styles = theme => ({
 });
 
 class AccordionForm extends React.Component {
+  data = {};
+  constructor(props) {
+    super(props);
+    this.state = { alignmentState: "" };
+
+    this.handleAlignmentChange = this.handleAlignmentChange.bind(this);
+    this.handleOwnerChange = this.handleOwnerChange.bind(this);
+  }
+  handleAlignmentChange(event) {
+    console.log(event.target.value);
+    this.setState({ alignmentState: event.target.value });
+    this.data.alignmentValue = event.target.value;
+    this.props.hello(this.data);
+  }
+  handleOwnerChange(event) {
+    this.setState({ ownerState: event.target.value });
+  }
+
+  handleInputChange = e => {
+    console.log(e.target.value);
+    this.data.inputValue = e.target.value;
+    this.props.hello(this.data);
+  };
   render() {
     const { classes } = this.props;
     return (
@@ -24,7 +47,9 @@ class AccordionForm extends React.Component {
           placeholder="Enter Title"
           id="adornment-amount"
           required={true}
+          onChange={this.handleInputChange}
         />
+        {this.props.error ? <div className="redError">Required</div> : null}
         <br />
         <h5> Description </h5>
         <TextField
@@ -44,36 +69,96 @@ class AccordionForm extends React.Component {
         <DatePickers />
         <br />
         <h5> Owner </h5>
-        <div class="form-group dropBox">
-          <select id="inputState" class="form-control">
-            <option selected>Choose...</option>
-            <option>Individual</option>
-            <option>Multiple</option>
-            <option>Shared</option>
+        <div className="form-group dropBox">
+          <select
+            id="inputState"
+            className="form-control"
+            value={this.state.ownerState}
+            onChange={this.handleOwnerChange}
+          >
+            <option value="">Choose...</option>
+            <option value="Individual">Individual</option>
+            <option value="Multiple">Multiple</option>
+            <option value="Shared">Shared</option>
           </select>
         </div>
-        <h5> Alignment </h5>
-        <div class="form-group dropBox">
-          <select id="inputState" class="form-control" required={true}>
-            <option selected>Choose...</option>
-            <option>Functional Skills</option>
-            <option>BSC Category</option>
+        <br />
+        {this.state.ownerState === "Multiple" ||
+        this.state.ownerState === "Shared"
+          ? [
+              <Input
+                id="user-name"
+                value="Mary Watson"
+                disabled
+                required={true}
+              />,
+              <span className="pull-right">+ Add User</span>,
+              <br />
+            ]
+          : null}
+        <h5> Alignment</h5>
+        <div className="form-group dropBox">
+          <select
+            className="form-control"
+            value={this.state.alignmentState}
+            onChange={this.handleAlignmentChange}
+            required={true}
+          >
+            <option value="">Choose...</option>
+            <option value="functional">Functional Skills</option>
+            <option value="bsc">BSC Category</option>
           </select>
         </div>
-        <RadioGroup
-          aria-label="Gender"
-          name="gender1"
-          className={classes.group}
-          onChange={this.handleChange}
-        >
-          <FormControlLabel
-            value="Engineering"
-            control={<Radio />}
-            label="Engineering"
-          />
-          <FormControlLabel value="Design" control={<Radio />} label="Design" />
-          <FormControlLabel value="Sales" control={<Radio />} label="Sales" />
-        </RadioGroup>
+        {this.props.error ? <div className="redError">Required</div> : null}
+        {this.state.alignmentState === "functional" ? (
+          <RadioGroup
+            aria-label="options"
+            name="options"
+            className={classes.group}
+            onChange={this.handleChange}
+          >
+            <FormControlLabel
+              value="Engineering"
+              control={<Radio />}
+              label="Engineering"
+            />
+            <FormControlLabel
+              value="Design"
+              control={<Radio />}
+              label="Design"
+            />
+            <FormControlLabel value="Sales" control={<Radio />} label="Sales" />
+          </RadioGroup>
+        ) : null}
+        {this.state.alignmentState === "bsc" ? (
+          <RadioGroup
+            aria-label="options"
+            name="options"
+            className={classes.group}
+            onChange={this.handleChange}
+          >
+            <FormControlLabel
+              value="Business"
+              control={<Radio />}
+              label="Business"
+            />
+            <FormControlLabel
+              value="People"
+              control={<Radio />}
+              label="People"
+            />
+            <FormControlLabel
+              value="Process"
+              control={<Radio />}
+              label="Process"
+            />
+            <FormControlLabel
+              value="Customer"
+              control={<Radio />}
+              label="Customer"
+            />
+          </RadioGroup>
+        ) : null}
       </FormControl>
     );
   }
