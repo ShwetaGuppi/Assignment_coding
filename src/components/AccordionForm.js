@@ -25,19 +25,17 @@ class AccordionForm extends React.Component {
     this.handleOwnerChange = this.handleOwnerChange.bind(this);
   }
   handleAlignmentChange(event) {
-    console.log(event.target.value);
     this.setState({ alignmentState: event.target.value });
     this.data.alignmentValue = event.target.value;
-    this.props.hello(this.data);
+    this.props.passingFunctionAlignment(this.data);
   }
   handleOwnerChange(event) {
     this.setState({ ownerState: event.target.value });
   }
 
   handleInputChange = e => {
-    console.log(e.target.value);
     this.data.inputValue = e.target.value;
-    this.props.hello(this.data);
+    this.props.passingFunctionInput(this.data);
   };
   render() {
     const { classes } = this.props;
@@ -49,14 +47,15 @@ class AccordionForm extends React.Component {
           required={true}
           onChange={this.handleInputChange}
         />
-        {this.props.error ? <div className="redError">Required</div> : null}
+        {this.props.showErrorInput ? (
+          <div className="redError">Required</div>
+        ) : null}
         <br />
         <h5> Description </h5>
         <TextField
           id="outlined-full-width"
-          label="Label"
           style={{ margin: 8 }}
-          placeholder="Placeholder"
+          placeholder="Description"
           fullWidth
           margin="normal"
           variant="outlined"
@@ -86,6 +85,11 @@ class AccordionForm extends React.Component {
         {this.state.ownerState === "Multiple" ||
         this.state.ownerState === "Shared"
           ? [
+              <img
+                src="https://www.google.com/imgres?imgurl=https%3A%2F%2Flistimg.pinclipart.com%2Fpicdir%2Fs%2F133-1332476_crowd-of-users-transparent-user-icon-png-clipart.png&imgrefurl=https%3A%2F%2Fwww.pinclipart.com%2Fpindetail%2FbTbJiJ_free-user-avatar-icons-happy-flat-design-png%2F&docid=y0jZktrZJ0buRM&tbnid=rwDuIriMfV-F8M%3A&vet=10ahUKEwiru6TXwY7iAhUhmeYKHYKsDZIQMwiRASgqMCo..i&w=320&h=320&bih=939&biw=1680&q=icon%20of%20users&ved=0ahUKEwiru6TXwY7iAhUhmeYKHYKsDZIQMwiRASgqMCo&iact=mrc&uact=8"
+                alt="iconImg"
+                className="pull-left"
+              />,
               <Input
                 id="user-name"
                 value="Mary Watson"
@@ -100,6 +104,7 @@ class AccordionForm extends React.Component {
         <div className="form-group dropBox">
           <select
             className="form-control"
+            s
             value={this.state.alignmentState}
             onChange={this.handleAlignmentChange}
             required={true}
@@ -109,7 +114,9 @@ class AccordionForm extends React.Component {
             <option value="bsc">BSC Category</option>
           </select>
         </div>
-        {this.props.error ? <div className="redError">Required</div> : null}
+        {this.props.showErrorAlignment ? (
+          <div className="redError">Required</div>
+        ) : null}
         {this.state.alignmentState === "functional" ? (
           <RadioGroup
             aria-label="options"

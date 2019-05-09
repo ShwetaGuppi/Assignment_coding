@@ -52,7 +52,8 @@ class ExpansionPanels extends React.Component {
   reqData = {};
   state = {
     expanded: null,
-    showError: false
+    showErrorInput: false,
+    showErrorAlignment: false
   };
 
   handleChange = panel => (event, expanded) => {
@@ -61,9 +62,24 @@ class ExpansionPanels extends React.Component {
     });
   };
 
-  passingFunction = data => {
-    if (data.alignmentValue && data.inputValue) {
-      this.setState({ showError: false });
+  passingFunctionInput = data => {
+    if (
+      data.inputValue &&
+      data.inputValue !== "" &&
+      data.inputValue !== undefined
+    ) {
+      this.setState({ showErrorInput: false });
+      this.reqData = data;
+    }
+  };
+
+  passingFunctionAlignment = data => {
+    if (
+      data.alignmentValue &&
+      data.alignmentValue !== "" &&
+      data.alignmentValue !== undefined
+    ) {
+      this.setState({ showErrorAlignment: false });
       this.reqData = data;
     }
   };
@@ -75,16 +91,25 @@ class ExpansionPanels extends React.Component {
       this.reqData.alignmentValue !== "" &&
       this.reqData.inputValue !== ""
     ) {
-      this.setState({ showError: false });
+      this.setState({ showErrorInput: false, showErrorAlignment: false });
     } else if (
-      this.reqData.alignmentValue === undefined ||
-      this.reqData.inputValue === undefined ||
-      this.reqData.alignmentValue !== "" ||
+      this.reqData.alignmentValue === undefined &&
+      this.reqData.inputValue === undefined &&
+      this.reqData.alignmentValue !== "" &&
       this.reqData.inputValue !== ""
     ) {
-      this.setState({ showError: true });
-    } else {
-      this.setState({ showError: false });
+      this.setState({ showErrorInput: true, showErrorAlignment: true });
+    } else if (
+      this.reqData.inputValue &&
+      (this.reqData.alignmentValue === undefined ||
+        this.reqData.alignmentValue === "")
+    ) {
+      this.setState({ showErrorInput: false, showErrorAlignment: true });
+    } else if (
+      this.reqData.alignmentValue &&
+      (this.reqData.inputValue === undefined || this.reqData.inputValue === "")
+    ) {
+      this.setState({ showErrorInput: true, showErrorAlignment: false });
     }
   }
 
@@ -103,8 +128,10 @@ class ExpansionPanels extends React.Component {
           </ExpansionPanelSummary>
           <ExpansionPanelDetails>
             <AccordionForm
-              error={this.state.showError}
-              hello={this.passingFunction}
+              showErrorInput={this.state.showErrorInput}
+              showErrorAlignment={this.state.showErrorAlignment}
+              passingFunctionInput={this.passingFunctionInput}
+              passingFunctionAlignment={this.passingFunctionAlignment}
             />
           </ExpansionPanelDetails>
         </ExpansionPanel>
